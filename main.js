@@ -11,27 +11,27 @@ function setup(){
 
 function draw(){
     image(video , 0 , 0 , 600 , 400);
-    objectDetector.detect(video , gotResult);
 
     if(Status == true){
-        
+        objectDetector.detect(video , gotResult);
+
         for(i = 0 ; i < objects.length ; i++){
 
-            if(objects[i].label == object_name){
-                document.getElementById("status").innerHTML = "Status: Object Detected!!";
-                
+            document.getElementById("status").innerHTML = "Status: Object Detected!!";
 
-                var synth = window.speechSynthesis;
-                utter_this = SpeechSynthesisUtterance(object_name + "found");
-                synth.speak(utter_this);
-
-                percent = floor(objects[i].confidece * 100);
+                percent = floor(objects[i].confidence * 100);
                 text(objects[i].label + " " + percent + "%" , objects[i].x + 15 , objects[i].y + 15);
 
                 fill("#FF0000");
                 noFill();
                 stroke("#FF0000");
                 rect(objects[i].x , objects[i].y , objects[i].width , objects[i].height);
+
+
+            if(objects[i].label == object_name){
+                video.stop();
+                objectDetector.detect(gotResult);
+                document.getElementById("object_found").innerHTML = object_name + " is found";
             }
 
             else{
